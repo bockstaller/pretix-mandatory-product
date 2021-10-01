@@ -15,10 +15,6 @@ class ForceProductSettingsForm(SettingsForm):
         label=_("Force products"),
         required=False,
     )
-    forced_product_check = forms.BooleanField(
-        label=_("Enable validation"),
-        required=False,
-    )
 
     def __init__(self, *args, **kwargs):
         event = kwargs.get("obj")
