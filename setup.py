@@ -4,7 +4,7 @@ from distutils.command.build import build
 from django.core import management
 from setuptools import find_packages, setup
 
-from pretix_force_product import __version__
+from pretix_mandatory_product import __version__
 
 
 try:
@@ -26,11 +26,11 @@ cmdclass = {"build": CustomBuild}
 
 
 setup(
-    name="pretix-force-product",
+    name="pretix-mandatory-product",
     version=__version__,
     description="Add questions to the contact info section",
     long_description=long_description,
-    url="github.com/bockstaller/pretix-force-product",
+    url="github.com/bockstaller/pretix-mandatory-product",
     author="Lukas Bockstaller",
     author_email="lukas.bockstaller@posteo.de",
     license="Apache",
@@ -40,6 +40,6 @@ setup(
     cmdclass=cmdclass,
     entry_points="""
 [pretix.plugin]
-pretix_force_product=pretix_force_product:PretixPluginMeta
+pretix_mandatory_product=pretix_mandatory_product:PretixPluginMeta
 """,
 )

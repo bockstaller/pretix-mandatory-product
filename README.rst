@@ -1,4 +1,4 @@
-Force Product
+Mandatory Product
 ==========================
 
 This is a plugin for `pretix`_. 

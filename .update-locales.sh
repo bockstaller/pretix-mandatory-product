@@ -1,6 +1,6 @@
 #!/bin/sh
-COMPONENTS=pretix/pretix-plugin-pretix-force-product
-DIR=pretix_force_product/locale
+COMPONENTS=pretix/pretix-plugin-pretix-mandatory-product
+DIR=pretix_mandatory_product/locale
 # Renerates .po files used for translating the plugin
 set -e
 set -x
