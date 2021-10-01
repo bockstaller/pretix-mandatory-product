@@ -9,11 +9,6 @@ from pretix.base.models import Event
 from pretix.control.views.event import EventSettingsFormView, EventSettingsViewMixin
 
 
-class Modes(Enum):
-    CHOOSE = 1
-    COMBINE = 2
-
-
 class MandatoryProductSettingsForm(SettingsForm):
     mandatory_product__list = forms.MultipleChoiceField(
         choices=[],
@@ -24,8 +19,8 @@ class MandatoryProductSettingsForm(SettingsForm):
 
     mandatory_product__combine = forms.ChoiceField(
         choices=[
-            (Modes.COMBINE, _("All mandatory products must be bought")),
-            (Modes.CHOOSE, _("At least one of the mandatory products must be bought")),
+            ("combine", _("All mandatory products must be bought")),
+            ("choose", _("At least one of the mandatory products must be bought")),
         ],
         label=_("Combine or choose products"),
         required=False,

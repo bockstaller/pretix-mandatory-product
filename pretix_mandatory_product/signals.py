@@ -7,10 +7,9 @@ from pretix.base.settings import settings_hierarkey
 from pretix.base.signals import event_live_issues, validate_cart
 from pretix.control.signals import nav_event_settings
 
-from .views import Modes
 
 settings_hierarkey.add_default("mandatory_product__list", [], list)
-settings_hierarkey.add_default("mandatory_product__combine", Modes.COMBINE.value, int)
+settings_hierarkey.add_default("mandatory_product__combine", "combine", str)
 
 
 @receiver(validate_cart, dispatch_uid="mandatory_product")
@@ -19,7 +18,7 @@ def register_contact_form_fields(sender, **kwargs):
     req_product = set([int(i) for i in sender.settings["mandatory_product__list"]])
     item_ids = set([i["item__id"] for i in kwargs["positions"].values("item__id")])
 
-    if sender.settings["mandatory_product__combine"] == Modes.COMBINE.value:
+    if sender.settings["mandatory_product__combine"] == "combine":
         if not req_product.issubset(item_ids):  #
             product_names = [
                 r.name for r in sender.items.filter(id__in=req_product).all()

@@ -5,8 +5,6 @@ from django_scopes import scopes_disabled
 from pretix.base.models import CartPosition, Event, Item, ItemCategory, Organizer, Quota
 from pretix.testutils.sessions import get_cart_session_key
 
-from pretix_mandatory_product.views import Modes
-
 
 class BaseCheckoutTestCase:
     def _set_session(self, key, value):
@@ -74,7 +72,7 @@ class CheckoutTestCase(BaseCheckoutTestCase, TestCase):
     def test_make_order_without_mandatory_product(self):
         with scopes_disabled():
 
-            self.event.settings["mandatory_product__combine"] = Modes.CHOOSE.value
+            self.event.settings["mandatory_product__combine"] = "choose"
 
             CartPosition.objects.create(
                 event=self.event,
@@ -99,7 +97,7 @@ class CheckoutTestCase(BaseCheckoutTestCase, TestCase):
     def test_make_order_with_mandatory_product(self):
         with scopes_disabled():
 
-            self.event.settings["mandatory_product__combine"] = Modes.CHOOSE.value
+            self.event.settings["mandatory_product__combine"] = "choose"
 
             CartPosition.objects.create(
                 event=self.event,
@@ -119,7 +117,7 @@ class CheckoutTestCase(BaseCheckoutTestCase, TestCase):
     def test_make_order_without_mandatory_product_combine_fail_1(self):
         with scopes_disabled():
 
-            self.event.settings["mandatory_product__combine"] = Modes.COMBINE.value
+            self.event.settings["mandatory_product__combine"] = "combine"
             CartPosition.objects.create(
                 event=self.event,
                 cart_id=self.session_key,
@@ -150,7 +148,7 @@ class CheckoutTestCase(BaseCheckoutTestCase, TestCase):
     def test_make_order_with_mandatory_product_combine_fail_2(self):
         with scopes_disabled():
 
-            self.event.settings["mandatory_product__combine"] = Modes.COMBINE.value
+            self.event.settings["mandatory_product__combine"] = "combine"
             CartPosition.objects.create(
                 event=self.event,
                 cart_id=self.session_key,
@@ -182,7 +180,7 @@ class CheckoutTestCase(BaseCheckoutTestCase, TestCase):
     def test_make_order_with_mandatory_product_combine_success(self):
         with scopes_disabled():
 
-            self.event.settings["mandatory_product__combine"] = Modes.COMBINE.value
+            self.event.settings["mandatory_product__combine"] = "combine"
 
             CartPosition.objects.create(
                 event=self.event,
