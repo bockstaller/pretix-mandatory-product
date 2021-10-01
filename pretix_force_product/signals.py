@@ -12,6 +12,7 @@ from pretix.base.signals import (
     validate_cart,
 )
 from pretix.control.signals import nav_event_settings
+from pretix.base.signals import event_live_issues
 
 settings_hierarkey.add_default("forced_product__list", [], list)
 
@@ -49,3 +50,14 @@ def navbar_settings(sender, request, **kwargs):
             and url.url_name == "force_product__settings",
         }
     ]
+
+
+@receiver(event_live_issues, dispatch_uid="force_product")
+def event_live(sender, **kwargs):
+    forced_products_setting = [int(x) for x in sender.settings["forced_product__list"]]
+
+    forced_inactive_products = (
+        sender.items.filter(id__in=forced_products_setting).filter(active=False).all()
+    )
+    if len(forced_inactive_products) != 0:
+        return _("You force customers to buy a product that is currently inactive.")
