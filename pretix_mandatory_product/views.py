@@ -1,15 +1,12 @@
-from collections import OrderedDict
 from django import forms
 from django.forms.widgets import CheckboxSelectMultiple, RadioSelect
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
+from enum import Enum
+from i18nfield.forms import I18nFormField, I18nTextInput
 from pretix.base.forms import SettingsForm
 from pretix.base.models import Event
-from pretix.base.plugins import PluginConfig
-from pretix.base.settings import validate_event_settings
 from pretix.control.views.event import EventSettingsFormView, EventSettingsViewMixin
-from i18nfield.forms import I18nFormField, I18nTextarea, I18nTextInput
-from enum import Enum
 
 
 class Modes(Enum):

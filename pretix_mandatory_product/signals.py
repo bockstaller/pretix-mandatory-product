@@ -1,21 +1,12 @@
-from django import forms
 from django.dispatch import receiver
 from django.urls import resolve, reverse
 from django.utils.translation import gettext_lazy as _
-from django.utils.translation import pgettext_lazy
+from pretix.base.i18n import LazyI18nString
 from pretix.base.services.cart import CartError, error_messages
 from pretix.base.settings import settings_hierarkey
-from pretix.base.shredder import BaseDataShredder
-from pretix.base.signals import (
-    register_data_exporters,
-    register_data_shredders,
-    register_payment_providers,
-    validate_cart,
-)
-
+from pretix.base.signals import event_live_issues, validate_cart
 from pretix.control.signals import nav_event_settings
-from pretix.base.signals import event_live_issues
-from pretix.base.i18n import LazyLocaleException, language, LazyI18nString
+
 from .views import Modes
 
 settings_hierarkey.add_default("mandatory_product__list", [], list)

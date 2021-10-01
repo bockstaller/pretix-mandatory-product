@@ -1,22 +1,10 @@
 import datetime
-
-
-from django.utils.timezone import now
-from django_scopes import scope
-
-
-from pretix.base.models import (
-    Event,
-    Item,
-    ItemCategory,
-    Organizer,
-    Quota,
-    CartPosition,
-)
-from pretix.plugins.ticketoutputpdf.ticketoutput import PdfTicketOutput
-from pretix.testutils.sessions import add_cart_session, get_cart_session_key
 from django.test import TestCase
+from django.utils.timezone import now
 from django_scopes import scopes_disabled
+from pretix.base.models import CartPosition, Event, Item, ItemCategory, Organizer, Quota
+from pretix.testutils.sessions import get_cart_session_key
+
 from pretix_mandatory_product.views import Modes
 
 
@@ -88,7 +76,7 @@ class CheckoutTestCase(BaseCheckoutTestCase, TestCase):
 
             self.event.settings["mandatory_product__combine"] = Modes.CHOOSE.value
 
-            cr1 = CartPosition.objects.create(
+            CartPosition.objects.create(
                 event=self.event,
                 cart_id=self.session_key,
                 item=self.ticket,
@@ -113,7 +101,7 @@ class CheckoutTestCase(BaseCheckoutTestCase, TestCase):
 
             self.event.settings["mandatory_product__combine"] = Modes.CHOOSE.value
 
-            cr1 = CartPosition.objects.create(
+            CartPosition.objects.create(
                 event=self.event,
                 cart_id=self.session_key,
                 item=self.ticket_mandatory,
@@ -132,14 +120,14 @@ class CheckoutTestCase(BaseCheckoutTestCase, TestCase):
         with scopes_disabled():
 
             self.event.settings["mandatory_product__combine"] = Modes.COMBINE.value
-            cr1 = CartPosition.objects.create(
+            CartPosition.objects.create(
                 event=self.event,
                 cart_id=self.session_key,
                 item=self.ticket,
                 price=23,
                 expires=now() + datetime.timedelta(minutes=10),
             )
-            cr2 = CartPosition.objects.create(
+            CartPosition.objects.create(
                 event=self.event,
                 cart_id=self.session_key,
                 item=self.ticket_mandatory,
@@ -163,14 +151,14 @@ class CheckoutTestCase(BaseCheckoutTestCase, TestCase):
         with scopes_disabled():
 
             self.event.settings["mandatory_product__combine"] = Modes.COMBINE.value
-            cr1 = CartPosition.objects.create(
+            CartPosition.objects.create(
                 event=self.event,
                 cart_id=self.session_key,
                 item=self.ticket,
                 price=23,
                 expires=now() + datetime.timedelta(minutes=10),
             )
-            cr2 = CartPosition.objects.create(
+            CartPosition.objects.create(
                 event=self.event,
                 cart_id=self.session_key,
                 item=self.ticket_mandatory2,
@@ -196,14 +184,14 @@ class CheckoutTestCase(BaseCheckoutTestCase, TestCase):
 
             self.event.settings["mandatory_product__combine"] = Modes.COMBINE.value
 
-            cr1 = CartPosition.objects.create(
+            CartPosition.objects.create(
                 event=self.event,
                 cart_id=self.session_key,
                 item=self.ticket_mandatory,
                 price=23,
                 expires=now() + datetime.timedelta(minutes=10),
             )
-            cr2 = CartPosition.objects.create(
+            CartPosition.objects.create(
                 event=self.event,
                 cart_id=self.session_key,
                 item=self.ticket_mandatory2,
