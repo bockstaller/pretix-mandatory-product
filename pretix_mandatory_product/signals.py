@@ -2,11 +2,10 @@ from django.dispatch import receiver
 from django.urls import resolve, reverse
 from django.utils.translation import gettext_lazy as _
 from pretix.base.i18n import LazyI18nString
-from pretix.base.services.cart import CartError, error_messages
+from pretix.base.services.cart import CartError
 from pretix.base.settings import settings_hierarkey
 from pretix.base.signals import event_live_issues, validate_cart
 from pretix.control.signals import nav_event_settings
-
 
 settings_hierarkey.add_default("mandatory_product__list", [], list)
 settings_hierarkey.add_default("mandatory_product__combine", "combine", str)
@@ -43,10 +42,15 @@ def register_contact_form_fields(sender, **kwargs):
                 return
 
         raise CartError(
-            _(error_messages["min_items_per_product"])
+            _(
+                "You need to buy at least %(min)s of each of this product: %(product)s. %(note)s "
+            )
             % {
                 "min": 1,
                 "product": sender.items.get(id=r).name,
+                "note": sender.settings.get(
+                    "mandatory_product__note", default=" ", as_type=LazyI18nString
+                ),
             }
         )
 

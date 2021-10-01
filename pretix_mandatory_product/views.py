@@ -2,7 +2,6 @@ from django import forms
 from django.forms.widgets import CheckboxSelectMultiple, RadioSelect
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
-from enum import Enum
 from i18nfield.forms import I18nFormField, I18nTextInput
 from pretix.base.forms import SettingsForm
 from pretix.base.models import Event
