@@ -43,7 +43,7 @@ def register_contact_form_fields(sender, **kwargs):
 
         raise CartError(
             _(
-                "You need to buy at least %(min)s of each of this product: %(product)s. %(note)s "
+                "You need to buy at least %(min)s of this product: %(product)s. %(note)s "
             )
             % {
                 "min": 1,

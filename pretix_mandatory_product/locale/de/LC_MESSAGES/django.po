@@ -1,0 +1,83 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-10-01 17:46+0200\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Lukas Bockstaller\n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.0\n"
+
+#: pretix_mandatory_product/__init__.py:16
+msgid "Mandatory Product"
+msgstr "Obligatorisches Produkt"
+
+#: pretix_mandatory_product/__init__.py:19
+msgid "Forces the customer to buy at least one of a product."
+msgstr "Zwingt den Kunden, mindestens eines Produkts zu kaufen."
+
+#: pretix_mandatory_product/signals.py:28
+#, python-format
+msgid ""
+"You need to buy at least %(min)s of each of these products: %(product)s. "
+"%(note)s "
+msgstr ""
+"Sie müssen mindestens %(min)s von jedem dieser Produkte kaufen: %(product)s. "
+"%(note)s "
+
+#: pretix_mandatory_product/signals.py:46
+#, python-format
+msgid ""
+"You need to buy at least %(min)s of this product: %(product)s. %(note)s "
+msgstr ""
+"Sie müssen mindestens %(min)s von diesem Produkt kaufen: %(product)s. "
+"%(note)s "
+
+#: pretix_mandatory_product/signals.py:63
+msgid "Mandatory Products"
+msgstr "Obligatorische Produkte"
+
+#: pretix_mandatory_product/signals.py:90
+msgid "You force customers to buy a product that is currently inactive."
+msgstr "Sie zwingen Kunden, ein Produkt zu kaufen, das derzeit inaktiv ist."
+
+#: pretix_mandatory_product/templates/pretix_mandatory_product/settings.html:4
+#: pretix_mandatory_product/templates/pretix_mandatory_product/settings.html:6
+msgid "Mandatory product settings"
+msgstr "Obligatorische Produkte - Einstellungen"
+
+#: pretix_mandatory_product/templates/pretix_mandatory_product/settings.html:7
+msgid ""
+"You can force your customers to add the selected products to their shopping "
+"cart. Use this functionality carefully!"
+msgstr ""
+"Dieses Plugin zwingt ihre Kund:innen eins oder mehrere Produkte zum "
+"Warenkorb hinzuzufügen.  Vorsicht!"
+
+#: pretix_mandatory_product/templates/pretix_mandatory_product/settings.html:18
+msgid "Save"
+msgstr "Speichern"
+
+#: pretix_mandatory_product/views.py:14
+msgid "Mandatory products"
+msgstr "Obligatorische Produkte"
+
+#: pretix_mandatory_product/views.py:21
+msgid "All mandatory products must be bought"
+msgstr "Alle obligatorischen Produkte müssen gekauft werden"
+
+#: pretix_mandatory_product/views.py:22
+msgid "At least one of the mandatory products must be bought"
+msgstr "Mind. eins der obligatorischen Produkte muss gekauft werden"
+
+#: pretix_mandatory_product/views.py:24
+msgid "Combine or choose products"
+msgstr "Alle oder einzelne obligatorische Produkte"
+
+#: pretix_mandatory_product/views.py:30
+msgid "Customer visible note"
+msgstr "Erklärung für den/die Kund:innen"
