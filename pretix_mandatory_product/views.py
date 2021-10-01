@@ -1,6 +1,6 @@
 from collections import OrderedDict
 from django import forms
-from django.forms.widgets import CheckboxSelectMultiple
+from django.forms.widgets import CheckboxSelectMultiple, RadioSelect
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from pretix.base.forms import SettingsForm
@@ -9,6 +9,12 @@ from pretix.base.plugins import PluginConfig
 from pretix.base.settings import validate_event_settings
 from pretix.control.views.event import EventSettingsFormView, EventSettingsViewMixin
 from i18nfield.forms import I18nFormField, I18nTextarea, I18nTextInput
+from enum import Enum
+
+
+class Modes(Enum):
+    CHOOSE = 1
+    COMBINE = 2
 
 
 class MandatoryProductSettingsForm(SettingsForm):
@@ -17,6 +23,22 @@ class MandatoryProductSettingsForm(SettingsForm):
         label=_("Mandatory products"),
         required=False,
         widget=CheckboxSelectMultiple,
+    )
+
+    mandatory_product__combine = forms.ChoiceField(
+        choices=[
+            (Modes.COMBINE, _("All mandatory products must be bought")),
+            (Modes.CHOOSE, _("At least one of the mandatory products must be bought")),
+        ],
+        label=_("Combine or choose products"),
+        required=False,
+        widget=RadioSelect,
+    )
+
+    mandatory_product__note = I18nFormField(
+        label=_("Customer visible note"),
+        required=False,
+        widget=I18nTextInput,
     )
 
     def __init__(self, *args, **kwargs):
