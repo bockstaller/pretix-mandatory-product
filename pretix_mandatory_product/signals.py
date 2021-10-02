@@ -17,7 +17,7 @@ def validate_cart_items(sender, **kwargs):
     req_product = set([int(i) for i in sender.settings["mandatory_product__list"]])
     item_ids = set([i["item__id"] for i in kwargs["positions"].values("item__id")])
     print(len(item_ids))
-    if len(item_ids) == 0:
+    if len(item_ids) == 0 or len(req_product) == 0:
         return
 
     if sender.settings["mandatory_product__combine"] == "combine":
