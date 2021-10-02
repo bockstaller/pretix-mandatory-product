@@ -16,6 +16,8 @@ def register_contact_form_fields(sender, **kwargs):
 
     req_product = set([int(i) for i in sender.settings["mandatory_product__list"]])
     item_ids = set([i["item__id"] for i in kwargs["positions"].values("item__id")])
+    if len(item_ids) == 0:
+        return
 
     if sender.settings["mandatory_product__combine"] == "combine":
         if not req_product.issubset(item_ids):  #
