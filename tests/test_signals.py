@@ -1,18 +1,19 @@
-import pytest
-from django_scopes import scopes_disabled
-from pretix_mandatory_product.signals import validate_cart_items
-from .test_checkout import BaseCheckoutTestCase
-from django.test import TestCase
-from pretix.base.models import CartPosition
 import datetime
+from django.test import TestCase
 from django.utils.timezone import now
+from django_scopes import scopes_disabled
+from pretix.base.models import CartPosition
 from pretix.base.services.cart import CartError
+
+from pretix_mandatory_product.signals import validate_cart_items
+
+from .test_checkout import BaseCheckoutTestCase
 
 
 class SignalTestCase(BaseCheckoutTestCase, TestCase):
     @scopes_disabled()
     def test_validate_cart_items_valid_combine(self):
-        p1 = CartPosition.objects.create(
+        CartPosition.objects.create(
             event=self.event,
             cart_id=self.session_key,
             item=self.ticket,
@@ -20,7 +21,7 @@ class SignalTestCase(BaseCheckoutTestCase, TestCase):
             expires=now() + datetime.timedelta(minutes=10),
         )
 
-        p2 = CartPosition.objects.create(
+        CartPosition.objects.create(
             event=self.event,
             cart_id=self.session_key,
             item=self.ticket_mandatory,
@@ -28,7 +29,7 @@ class SignalTestCase(BaseCheckoutTestCase, TestCase):
             expires=now() + datetime.timedelta(minutes=10),
         )
 
-        p2 = CartPosition.objects.create(
+        CartPosition.objects.create(
             event=self.event,
             cart_id=self.session_key,
             item=self.ticket_mandatory2,
@@ -40,7 +41,7 @@ class SignalTestCase(BaseCheckoutTestCase, TestCase):
 
     @scopes_disabled()
     def test_validate_cart_items_invalid_combine(self):
-        p1 = CartPosition.objects.create(
+        CartPosition.objects.create(
             event=self.event,
             cart_id=self.session_key,
             item=self.ticket,
@@ -58,7 +59,7 @@ class SignalTestCase(BaseCheckoutTestCase, TestCase):
     @scopes_disabled()
     def test_validate_cart_items_valid_choose(self):
         self.event.settings["mandatory_product__combine"] = "choose"
-        p1 = CartPosition.objects.create(
+        CartPosition.objects.create(
             event=self.event,
             cart_id=self.session_key,
             item=self.ticket,
@@ -66,7 +67,7 @@ class SignalTestCase(BaseCheckoutTestCase, TestCase):
             expires=now() + datetime.timedelta(minutes=10),
         )
 
-        p2 = CartPosition.objects.create(
+        CartPosition.objects.create(
             event=self.event,
             cart_id=self.session_key,
             item=self.ticket_mandatory,
@@ -79,7 +80,7 @@ class SignalTestCase(BaseCheckoutTestCase, TestCase):
     @scopes_disabled()
     def test_validate_cart_items_invalid_choose(self):
         self.event.settings["mandatory_product__combine"] = "choose"
-        p1 = CartPosition.objects.create(
+        CartPosition.objects.create(
             event=self.event,
             cart_id=self.session_key,
             item=self.ticket,
@@ -104,7 +105,7 @@ class NoMandatoryProductsTestCase(BaseCheckoutTestCase, TestCase):
 
     @scopes_disabled()
     def test_validate_cart_items_valid_combine(self):
-        p1 = CartPosition.objects.create(
+        CartPosition.objects.create(
             event=self.event,
             cart_id=self.session_key,
             item=self.ticket,
@@ -116,7 +117,7 @@ class NoMandatoryProductsTestCase(BaseCheckoutTestCase, TestCase):
 
     @scopes_disabled()
     def test_validate_cart_items_invalid_combine(self):
-        p1 = CartPosition.objects.create(
+        CartPosition.objects.create(
             event=self.event,
             cart_id=self.session_key,
             item=self.ticket_mandatory,
@@ -133,7 +134,7 @@ class NoMandatoryProductsTestCase(BaseCheckoutTestCase, TestCase):
     @scopes_disabled()
     def test_validate_cart_items_valid_choose(self):
         self.event.settings["mandatory_product__combine"] = "choose"
-        p1 = CartPosition.objects.create(
+        CartPosition.objects.create(
             event=self.event,
             cart_id=self.session_key,
             item=self.ticket,
@@ -146,7 +147,7 @@ class NoMandatoryProductsTestCase(BaseCheckoutTestCase, TestCase):
     @scopes_disabled()
     def test_validate_cart_items_invalid_choose(self):
         self.event.settings["mandatory_product__combine"] = "choose"
-        p1 = CartPosition.objects.create(
+        CartPosition.objects.create(
             event=self.event,
             cart_id=self.session_key,
             item=self.ticket_mandatory,
