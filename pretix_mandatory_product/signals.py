@@ -83,6 +83,12 @@ def event_live(sender, **kwargs):
         int(x) for x in sender.settings["mandatory_product__list"]
     ]
 
+    mandatory_existing_products = list(sender.items.filter(id__in=mandatory_products_setting).values_list('id', flat=True))
+    
+    if len(mandatory_existing_products) != len(mandatory_products_setting):
+        non_existing_products = list(set(mandatory_products_setting)-set(mandatory_existing_products))
+        return _(f"The product(s) with the ids {non_existing_products} are mandatory but don't exist")
+
     mandatory_inactive_products = (
         sender.items.filter(id__in=mandatory_products_setting)
         .filter(active=False)
