@@ -25,6 +25,8 @@ jobs:
       - name: Install pretix
         run: pip3 install pretix
       - name: Install Dependencies
-        run: pip3 install pytest pytest-django -Ue .
+        run: pip3 install pytest pytest-django
+      - name: Install Project
+        run: python setup.py develop
       - name: Run checks
         run: py.test tests

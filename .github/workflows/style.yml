@@ -25,8 +25,10 @@ jobs:
       - name: Install pretix
         run: pip3 install pretix
       - name: Install Dependencies
-        run: pip3 install isort -Ue .
-      - name: Run isort
+        run: pip3 install isort
+      - name: Install Project
+        run: python setup.py develop
+      - name: Run isortf
         run: isort -c .
   flake:
     name: flake8
@@ -40,7 +42,9 @@ jobs:
       - name: Install pretix
         run: pip3 install pretix
       - name: Install Dependencies
-        run: pip3 install flake8 -Ue .
+        run: pip3 install flake8
+      - name: Install Project
+        run: python setup.py develop
       - name: Run flake8
         run: flake8 .
         working-directory: .
@@ -56,7 +60,9 @@ jobs:
       - name: Install pretix
         run: pip3 install pretix
       - name: Install Dependencies
-        run: pip3 install black -Ue .
+        run: pip3 install black
+      - name: Install Project
+        run: python setup.py develop
       - name: Run black
         run: black --check .
         working-directory: .
@@ -72,7 +78,9 @@ jobs:
       - name: Install pretix
         run: pip3 install pretix
       - name: Install Dependencies
-        run: pip3 install docformatter -Ue .
+        run: pip3 install docformatter
+      - name: Install Project
+        run: python setup.py develop
       - name: Run docformatter
         run: docformatter --check -r .
         working-directory: .
@@ -88,7 +96,9 @@ jobs:
       - name: Install pretix
         run: pip3 install pretix
       - name: Install Dependencies
-        run: pip3 install twine check-manifest -Ue .
+        run: pip3 install twine check-manifest
+      - name: Install Project
+        run: python setup.py develop
       - name: Run check-manifest
         run: check-manifest .
         working-directory: .
