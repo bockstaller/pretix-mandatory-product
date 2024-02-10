@@ -71,7 +71,6 @@ class BaseCheckoutTestCase:
 class CheckoutTestCase(BaseCheckoutTestCase, TestCase):
     def test_make_order_without_mandatory_product(self):
         with scopes_disabled():
-
             self.event.settings["mandatory_product__combine"] = "choose"
 
             CartPosition.objects.create(
@@ -96,7 +95,6 @@ class CheckoutTestCase(BaseCheckoutTestCase, TestCase):
 
     def test_make_order_with_mandatory_product(self):
         with scopes_disabled():
-
             self.event.settings["mandatory_product__combine"] = "choose"
 
             CartPosition.objects.create(
@@ -116,7 +114,6 @@ class CheckoutTestCase(BaseCheckoutTestCase, TestCase):
 
     def test_make_order_without_mandatory_product_combine_fail_1(self):
         with scopes_disabled():
-
             self.event.settings["mandatory_product__combine"] = "combine"
             CartPosition.objects.create(
                 event=self.event,
@@ -147,7 +144,6 @@ class CheckoutTestCase(BaseCheckoutTestCase, TestCase):
 
     def test_make_order_with_mandatory_product_combine_fail_2(self):
         with scopes_disabled():
-
             self.event.settings["mandatory_product__combine"] = "combine"
             CartPosition.objects.create(
                 event=self.event,
@@ -179,7 +175,6 @@ class CheckoutTestCase(BaseCheckoutTestCase, TestCase):
 
     def test_make_order_with_mandatory_product_combine_success(self):
         with scopes_disabled():
-
             self.event.settings["mandatory_product__combine"] = "combine"
 
             CartPosition.objects.create(
