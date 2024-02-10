@@ -87,6 +87,11 @@ jobs:
   packaging:
     name: packaging
     runs-on: ubuntu-latest
+    environment:
+      name: test-pypi
+      url: https://test.pypi.org/p/pretix-mandatory-product
+    permissions:
+      id-token: write # IMPORTANT: this permission is mandatory for trusted publishing
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python 3.11
@@ -108,3 +113,5 @@ jobs:
       - name: Check package
         run: twine check dist/*
         working-directory: .
+      - name: Publish package distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
