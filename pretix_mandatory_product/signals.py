@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from pretix.base.i18n import LazyI18nString
 from pretix.base.services.cart import CartError
 from pretix.base.settings import settings_hierarkey
-from pretix.base.signals import event_live_issues, validate_cart
+from pretix.base.signals import event_live_issues, validate_cart, event_copy_data
 from pretix.control.signals import nav_event_settings
 
 settings_hierarkey.add_default("mandatory_product__list", [], list)
@@ -91,3 +91,11 @@ def event_live(sender, **kwargs):
 
     if len(mandatory_inactive_products) != 0:
         return _("You force customers to buy a product that is currently inactive.")
+
+    
+@receiver(event_copy_data, dispatch_uid="mandatory_product")
+def copy_event(sender, other, **kwargs):
+    item_map = kwargs['item_map']
+    old_mandatory_products = other.settings["mandatory_product__list"]
+    new_mandatory_products = [item_map[o_m_p].id for o_m_p in old_mandatory_products]
+    sender.settings["mandatory_product__list"] = new_mandatory_products
