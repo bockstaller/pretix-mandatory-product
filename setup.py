@@ -16,15 +16,6 @@ except Exception:
     long_description = ""
 
 
-class CustomBuild(build):
-    def run(self):
-        management.call_command("compilemessages", verbosity=1)
-        build.run(self)
-
-
-cmdclass = {"build": CustomBuild}
-
-
 setup(
     name="pretix-mandatory-product",
     version=__version__,
@@ -37,7 +28,6 @@ setup(
     install_requires=["pretix", "Django"],
     packages=find_packages(exclude=["tests", "tests.*"]),
     include_package_data=True,
-    cmdclass=cmdclass,
     entry_points="""
 [pretix.plugin]
 pretix_mandatory_product=pretix_mandatory_product:PretixPluginMeta
