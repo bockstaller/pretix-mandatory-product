@@ -1,4 +1,5 @@
 from django.utils.translation import gettext_lazy
+
 from pretix_mandatory_product import __version__
 
 try:
