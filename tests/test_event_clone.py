@@ -1,6 +1,6 @@
 import datetime
 from django.test import TestCase
-from django_scopes import scopes_disabled
+from django_scopes import scopes_disabled, scope
 from pretix.base.models import Event, Item
 
 from .test_checkout import BaseCheckoutTestCase
@@ -8,7 +8,7 @@ from .test_checkout import BaseCheckoutTestCase
 
 class EventCloneTestCase(BaseCheckoutTestCase, TestCase):
     def test_clone_shop(self):
-        with scopes_disabled():
+        with scope(organizer=self.orga):
             copied_event = Event.objects.create(
                 organizer=self.orga,
                 name="Dummy2",

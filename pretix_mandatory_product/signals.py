@@ -108,7 +108,15 @@ def event_live(sender, **kwargs):
 
 @receiver(event_copy_data, dispatch_uid="mandatory_product")
 def copy_event(sender, other, **kwargs):
-    item_map = kwargs["item_map"]
-    old_mandatory_products = other.settings["mandatory_product__list"]
-    new_mandatory_products = [item_map[o_m_p].id for o_m_p in old_mandatory_products]
-    sender.settings["mandatory_product__list"] = new_mandatory_products
+    try:
+        item_map = kwargs["item_map"]
+        old_mandatory_products = other.settings["mandatory_product__list"]
+        new_mandatory_products = [
+            item_map[int(o_m_p)].id for o_m_p in old_mandatory_products
+        ]
+        sender.settings["mandatory_product__list"] = new_mandatory_products
+    except e:
+        print(old_mandatory_products)
+        print(item_map)
+        print(new_mandatory_products)
+        raise e
