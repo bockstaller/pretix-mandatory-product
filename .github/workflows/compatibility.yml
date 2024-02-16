@@ -41,7 +41,7 @@ jobs:
         run: pip3 install -e ".[dev]" psycopg2-binary
         working-directory: pretix
       - name: Run checks
-        run: python manage.py check
+        run: python3 manage.py check
         working-directory: pretix/src
       - name: Install JS dependencies
         working-directory: pretix/src
@@ -52,6 +52,6 @@ jobs:
       - name: Checkout pretix-mandatory-product
         uses: actions/checkout@v4
       - name: Install Project
-        run: python setup.py develop
+        run: python3 setup.py develop
       - name: Run checks
         run: py.test tests
