@@ -54,4 +54,4 @@ jobs:
       - name: Install Project
         run: pip3 install -e .
       - name: Run checks
-        run: py.test tests
+        run: pytest
