@@ -1,0 +1,55 @@
+name: Tests
+
+on:
+  push:
+    branches: [main, master]
+    paths-ignore:
+      - "pretix_mandatory_product/locale/**"
+  pull_request:
+    branches: [main, master]
+    paths-ignore:
+      - "pretix_mandatory_product/locale/**"
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron: "05 8,16 * * *"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: Test Compatibility against upstream pretix
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: pretix/pretix
+          path: pretix
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+      - uses: actions/cache@v1
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+      - name: Install Python dependencies
+        run: pip3 install --ignore-requires-python -e ".[dev]" psycopg2-binary # We ignore that flake8 needs newer python as we don't run flake8 during tests
+        working-directory: pretix
+      - name: Run checks
+        run: python manage.py check
+        working-directory: pretix/src
+      - name: Install JS dependencies
+        working-directory: pretix/src
+        run: make npminstall
+      - name: Compile
+        working-directory: pretix/src
+        run: make all compress
+      - name: Checkout pretix-mandatory-product
+        uses: actions/checkout@v4
+      - name: Install Project
+        run: python setup.py develop
+      - name: Run checks
+        run: py.test tests
