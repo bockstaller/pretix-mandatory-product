@@ -101,6 +101,11 @@ jobs:
           postgresql db: "pretix"
           postgresql user: "postgres"
           postgresql password: "postgres"
+        if: matrix.database == 'postgres'
+      - uses: actions/checkout@v4
+        with:
+          repository: pretix/pretix
+          path: pretix
       - uses: actions/checkout@v4
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v1
@@ -122,7 +127,6 @@ jobs:
         run: pip3 install -e .
       - name: Run checks
         run: PRETIX_CONFIG_FILE=../pretix/src/tests/travis_${{ matrix.database }}.cfg pytest
-        working-directory: pretix-mandatory-product
 
   upstream-compat:
     runs-on: ubuntu-latest
@@ -138,6 +142,7 @@ jobs:
           postgresql db: "pretix"
           postgresql user: "postgres"
           postgresql password: "postgres"
+        if: matrix.database == 'postgres'
       - uses: actions/checkout@v4
         with:
           repository: pretix/pretix
@@ -177,7 +182,7 @@ jobs:
         run: pip3 install -e .
         working-directory: pretix-mandatory-product
       - name: Run checks
-        run: PRETIX_CONFIG_FILE=../pretix/src/tests/travis_${{ matrix.database }}.cfg pytest
+        run: PRETIX_CONFIG_FILE=pretix/src/tests/travis_${{ matrix.database }}.cfg pytest
         working-directory: pretix-mandatory-product
 
   packaging:
