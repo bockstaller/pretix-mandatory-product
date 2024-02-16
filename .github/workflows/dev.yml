@@ -1,4 +1,4 @@
-name: Code Style
+name: Development
 
 on:
   push:
@@ -11,6 +11,9 @@ on:
     paths-ignore:
       - "pretix_mandatory_product/locale/**"
       - "pretix_mandatory_product/static/**"
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron: "05 8 * * *"
 
 jobs:
   isort:
@@ -88,9 +91,16 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.10", "3.11", "3.12"]
+        database: [sqlite, postgres]
     runs-on: ubuntu-latest
     name: Tests
     steps:
+      - uses: harmon758/postgresql-action@v1
+        with:
+          postgresql version: "15"
+          postgresql db: "pretix"
+          postgresql user: "postgres"
+          postgresql password: "postgres"
       - uses: actions/checkout@v4
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v1
@@ -109,9 +119,66 @@ jobs:
       - name: Install Dependencies
         run: pip3 install pytest pytest-django
       - name: Install Project
-        run: python setup.py develop
+        run: pip3 install -e .
       - name: Run checks
-        run: py.test tests
+        run: PRETIX_CONFIG_FILE=../pretix/src/tests/travis_${{ matrix.database }}.cfg pytest
+        working-directory: pretix-mandatory-product
+
+  upstream-compat:
+    runs-on: ubuntu-latest
+    name: Test Compatibility against upstream pretix
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+        database: [sqlite, postgres]
+    steps:
+      - uses: harmon758/postgresql-action@v1
+        with:
+          postgresql version: "15"
+          postgresql db: "pretix"
+          postgresql user: "postgres"
+          postgresql password: "postgres"
+      - uses: actions/checkout@v4
+        with:
+          repository: pretix/pretix
+          path: pretix
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+      - uses: actions/cache@v1
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+      - name: Install system dependencies
+        run: sudo apt update && sudo apt install gettext
+      - name: Install Python dependencies
+        run: pip3 install -e ".[dev]" psycopg2-binary
+        working-directory: pretix
+      - name: Install Pretix dependencies
+        run: pip3 install -e .
+        working-directory: pretix
+      - name: Run checks
+        run: python3 manage.py check
+        working-directory: pretix/src
+      - name: Install JS dependencies
+        working-directory: pretix/src
+        run: make npminstall
+      - name: Compile
+        working-directory: pretix/src
+        run: make all compress
+      - name: Checkout pretix-mandatory-product
+        uses: actions/checkout@v4
+        with:
+          path: pretix-mandatory-product
+      - name: Install Project
+        run: pip3 install -e .
+        working-directory: pretix-mandatory-product
+      - name: Run checks
+        run: PRETIX_CONFIG_FILE=../pretix/src/tests/travis_${{ matrix.database }}.cfg pytest
+        working-directory: pretix-mandatory-product
 
   packaging:
     name: packaging
@@ -122,6 +189,7 @@ jobs:
       - black
       - flake
       - isort
+      - upstream-compat
     environment:
       name: test-pypi
       url: https://test.pypi.org/p/pretix-mandatory-product
