@@ -40,6 +40,9 @@ jobs:
       - name: Install Python dependencies
         run: pip3 install -e ".[dev]" psycopg2-binary
         working-directory: pretix
+      - name: Install Pretix dependencies
+        run: pip3 install -e .
+        working-directory: pretix
       - name: Run checks
         run: python3 manage.py check
         working-directory: pretix/src
