@@ -23,7 +23,6 @@ setup(
     author="Lukas Bockstaller",
     author_email="lukas.bockstaller@posteo.de",
     license="Apache",
-    install_requires=["pretix", "Django"],
     packages=find_packages(exclude=["tests", "tests.*"]),
     include_package_data=True,
     entry_points="""
