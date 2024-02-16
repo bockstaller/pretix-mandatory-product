@@ -54,7 +54,11 @@ jobs:
         run: make all compress
       - name: Checkout pretix-mandatory-product
         uses: actions/checkout@v4
+        with:
+          path: pretix-mandatory-product
       - name: Install Project
         run: pip3 install -e .
+        working-directory: pretix-mandatory-product
       - name: Run checks
         run: pytest
+        working-directory: pretix-mandatory-product
