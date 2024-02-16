@@ -126,7 +126,7 @@ jobs:
       - name: Install Project
         run: pip3 install -e .
       - name: Run checks
-        run: PRETIX_CONFIG_FILE=../pretix/src/tests/travis_${{ matrix.database }}.cfg pytest
+        run: PRETIX_CONFIG_FILE=pretix/src/tests/travis_${{ matrix.database }}.cfg pytest
 
   upstream-compat:
     runs-on: ubuntu-latest
@@ -182,7 +182,7 @@ jobs:
         run: pip3 install -e .
         working-directory: pretix-mandatory-product
       - name: Run checks
-        run: PRETIX_CONFIG_FILE=pretix/src/tests/travis_${{ matrix.database }}.cfg pytest
+        run: PRETIX_CONFIG_FILE=../pretix/src/tests/travis_${{ matrix.database }}.cfg pytest
         working-directory: pretix-mandatory-product
 
   packaging:
