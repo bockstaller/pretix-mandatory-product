@@ -52,6 +52,6 @@ jobs:
       - name: Checkout pretix-mandatory-product
         uses: actions/checkout@v4
       - name: Install Project
-        run: python3 setup.py develop
+        run: pip3 install -e .
       - name: Run checks
         run: py.test tests
